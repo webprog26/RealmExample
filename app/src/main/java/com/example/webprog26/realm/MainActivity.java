@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
 
         RealmResults<Task> tasks = realm.where(Task.class).findAll();
+        tasks = tasks.sort("timestamp");
         final TaskAdapter adapter = new TaskAdapter(tasks, this);
 
         mTaskList.setAdapter(adapter);
@@ -82,8 +83,9 @@ public class MainActivity extends AppCompatActivity {
                                 realm.executeTransactionAsync(new Realm.Transaction() {
                                     @Override
                                     public void execute(Realm realm) {
-                                        realm.createObject(Task.class, UUID.randomUUID().toString())
-                                        .setName(taskEditText.getText().toString());
+                                        Task task = realm.createObject(Task.class, UUID.randomUUID().toString());
+                                        task.setName(taskEditText.getText().toString());
+                                        task.setTimestamp(System.currentTimeMillis());
                                     }
                                 });
                             }

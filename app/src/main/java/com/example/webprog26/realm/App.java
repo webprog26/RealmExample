@@ -13,7 +13,7 @@ public class App extends Application {
 
     private static final String REALM_DB_NAME = "test_realm_db.realm";
 
-    private static final long SCHEMA_VERSION = 0;
+    public static final long SCHEMA_VERSION = 1;
 
     @Override
     public void onCreate() {
@@ -22,7 +22,7 @@ public class App extends Application {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .name(REALM_DB_NAME)
                 .schemaVersion(SCHEMA_VERSION)
-                .deleteRealmIfMigrationNeeded()
+                .migration(new Migration())
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
     }
